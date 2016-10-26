@@ -10,7 +10,9 @@
 #include <stdlib.h>
 #endif
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 unsigned long strdeque_new();
 void strdeque_delete(unsigned long id);
@@ -21,6 +23,8 @@ const char *strdeque_get_at(unsigned long id, size_t pos);
 void strdeque_clear(unsigned long id);
 int strdeque_comp(unsigned long id1, unsigned long id2);
 
-};
+#ifdef __cplusplus
+}
+#endif
 
 #endif //INC_2_STRDEQUE_H

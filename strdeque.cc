@@ -11,9 +11,9 @@
 
 
 #ifndef DNDEBUG
-const bool debug = true;
+    const bool debug = true;
 #else
-const bool debug = false;
+    const bool debug = false;
 #endif
 
 using namespace std;
@@ -29,7 +29,8 @@ namespace {
         static unsigned long last_key = 1;
         while (get_dequeues_map().count(last_key) == 1)
             last_key++;
-        assert(last_key == 0);
+        if (debug)
+            assert(last_key != 0);
         return last_key++;
     }
 
@@ -45,7 +46,7 @@ namespace {
     }
 }
 
-extern "C" {
+
 unsigned long strdeque_new() {
     if (debug)
         cerr << "strdeque_new()\n";
@@ -145,7 +146,7 @@ void strdeque_remove_at(unsigned long id, size_t pos) {
         deque<const char *> *dq = &get_strdeque(id);
         if (dq != NULL) {
             if (pos < dq->size()) {
-                deque<const char *>::iterator deq_it;
+                deque<const char *>::iterator deq_it = dq->begin();
                 deq_it += pos;
                 dq->erase(deq_it);
                 if (debug) {
@@ -211,15 +212,25 @@ void strdeque_clear(unsigned long id) {
 
 int strdeque_comp(unsigned long id1, unsigned long id2) {
     deque<const char *> *dq1 = &get_strdeque(id1);
-    if (dq1 == NULL) {
-        if (debug) {
-            cerr << "strdeque_comp: deque " << id1 << " does not exist\n";
-        }
-    }
     deque<const char *> *dq2 = &get_strdeque(id2);
-    if (dq2 == NULL) {
-        if (debug) {
-            cerr << "strdeque_comp: deque " << id2 << " does not exist\n";
+    if (dq1 == NULL || dq2 == NULL) {
+        if (dq1 == NULL && dq2 == NULL) {
+            if (debug) {
+                cerr << "strdeque_comp: both deques do not exist\n";
+            }
+            return 0;
+        }
+        else if (dq1 == NULL) {
+            if (debug) {
+                cerr << "strdeque_comp: deque " << id1 << " does not exist\n";
+            }
+            return -1;
+        }
+        else {
+            if (debug) {
+                cerr << "strdeque_comp: deque " << id2 << " does not exist\n";
+            }
+            return 1;
         }
     }
     if (debug) {
@@ -243,4 +254,3 @@ int strdeque_comp(unsigned long id1, unsigned long id2) {
     }
     return 1;
 }
-};
