@@ -72,7 +72,7 @@ unsigned long strdeque_new() {
 void strdeque_delete(unsigned long id) {
     if (id == emptystrdeque()) {
         if (debug) {
-            cerr << "strdeque_delete: attempt to delete the Empty Deque)\n";
+            cerr << "strdeque_delete: attempt to delete the Empty Deque\n";
         }
     }
     else {
@@ -96,7 +96,7 @@ size_t strdeque_size(unsigned long id) {
     if (dq != NULL) {
         if (debug) {
             if (id == emptystrdeque()) {
-                cerr << "strdeque_size: the Empty Deque contain " << dq->size() << "elements\n";
+                cerr << "strdeque_size: the Empty Deque contain " << dq->size() << " elements\n";
             }
             else {
                 cerr << "strdeque_size: deque " << id << " consist " << dq->size() << " elements\n";
@@ -224,9 +224,7 @@ int strdeque_comp(unsigned long id1, unsigned long id2) {
     deque<const char *> *dq1 = &get_strdeque(id1);
     deque<const char *> *dq2 = &get_strdeque(id2);
     if (dq1 == NULL || dq2 == NULL) {
-        if ((dq1 == NULL && dq2 == NULL) ||
-			(dq1 == NULL && dq2->size() == 0) ||
-			(dq2 == NULL && dq1->size() == 0)) {
+        if (dq1 == NULL && dq2 == NULL) {
             if (debug) {
                 cerr << "strdeque_comp: both deques do not exist\n";
             }
@@ -236,11 +234,17 @@ int strdeque_comp(unsigned long id1, unsigned long id2) {
             if (debug) {
                 cerr << "strdeque_comp: deque " << id1 << " does not exist\n";
             }
+            if (dq1 == NULL && dq2->size() == 0) {
+                return 0;
+            }
             return -1;
         }
         else {
             if (debug) {
                 cerr << "strdeque_comp: deque " << id2 << " does not exist\n";
+            }
+            if (dq2 == NULL && dq1->size() == 0) {
+                return 0;
             }
             return 1;
         }
