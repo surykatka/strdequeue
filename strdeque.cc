@@ -8,7 +8,7 @@
 #include <map>
 #include <assert.h>
 #include <iostream>
-
+#include <cstring>
 
 #ifndef DNDEBUG
     const bool debug = true;
@@ -44,6 +44,17 @@ namespace {
         deque<const char *> *ret = NULL;
         return *ret;
     }
+    
+    
+	void strdeque_debug(deque<const char *> *dq) {
+		deque<const char *>::iterator deq_it = dq->begin();
+		for (unsigned long i = 0; i < dq->size(); i++) {
+			for (unsigned long j = 0; j < strlen(dq->at(i)); j++) {
+				printf("%d ", (int)dq->at(i)[j]);
+			}
+		}
+		printf("%lu\n", dq->size());
+	}
 }
 
 
@@ -209,12 +220,13 @@ void strdeque_clear(unsigned long id) {
     }
 }
 
-
 int strdeque_comp(unsigned long id1, unsigned long id2) {
     deque<const char *> *dq1 = &get_strdeque(id1);
     deque<const char *> *dq2 = &get_strdeque(id2);
     if (dq1 == NULL || dq2 == NULL) {
-        if (dq1 == NULL && dq2 == NULL) {
+        if ((dq1 == NULL && dq2 == NULL) ||
+			(dq1 == NULL && dq2->size() == 0) ||
+			(dq2 == NULL && dq1->size() == 0)) {
             if (debug) {
                 cerr << "strdeque_comp: both deques do not exist\n";
             }
@@ -233,24 +245,35 @@ int strdeque_comp(unsigned long id1, unsigned long id2) {
             return 1;
         }
     }
+    ///strdeque_debug(dq1);
+	///strdeque_debug(dq2);
     if (debug) {
         cerr << "strdeque_comp: result of comparing deque " << id1 << " and deque " << id2 << " is ";
     }
-    if (dq1 == dq2) {
+    if (dq1->size() == dq2->size()) {
+		unsigned long size = 0;
+		for (unsigned long i = 0; i < dq1->size(); i++) {
+			if (strcmp(dq1->at(i), dq2->at(i)) == 0)
+				size++;
+		}
         if (debug) {
             cerr << "0\n";
         }
-        return 0;
+        if (size == dq2->size())
+			return 0;
     }
-    if (dq1 < dq2) {
+    else if (dq1 < dq2) {
         if (debug) {
             cerr << "-1\n";
         }
         return -1;
-    }
-    // dq1 > dq2
-    if (debug) {
-        cerr << "1\n";
-    }
+    } else {
+		// dq1 > dq2
+		if (debug) {
+			cerr << "1\n";
+		}
+	}
     return 1;
 }
+
+
