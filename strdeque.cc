@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cstring>
 
-#ifndef DNDEBUG
+#ifndef NDEBUG
     const bool debug = true;
 #else
     const bool debug = false;

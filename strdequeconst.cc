@@ -7,7 +7,7 @@
 #include <iostream>
 
 using namespace std;
-#ifndef DNDEBUG
+#ifndef NDEBUG
     const bool debug = true;
 #else
     const bool debug = false;
