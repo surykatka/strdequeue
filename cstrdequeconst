@@ -4,6 +4,7 @@
 
 #ifndef INC_2_STRDEQUECONST_H
 #define INC_2_STRDEQUECONST_H
+#include <iostream>
 
 #ifdef __cplusplus
 extern "C" {

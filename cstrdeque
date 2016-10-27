@@ -9,6 +9,8 @@
 #define STDLIB_H
 #include <stdlib.h>
 #endif
+#include <iostream>
+
 
 #ifdef __cplusplus
 extern "C" {
