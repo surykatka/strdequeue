@@ -44,17 +44,6 @@ namespace {
         deque<const char *> *ret = NULL;
         return *ret;
     }
-    
-    
-	void strdeque_debug(deque<const char *> *dq) {
-		deque<const char *>::iterator deq_it = dq->begin();
-		for (unsigned long i = 0; i < dq->size(); i++) {
-			for (unsigned long j = 0; j < strlen(dq->at(i)); j++) {
-				printf("%d ", (int)dq->at(i)[j]);
-			}
-		}
-		printf("%lu\n", dq->size());
-	}
 }
 
 
@@ -249,8 +238,6 @@ int strdeque_comp(unsigned long id1, unsigned long id2) {
             return 1;
         }
     }
-    ///strdeque_debug(dq1);
-	///strdeque_debug(dq2);
     if (debug) {
         cerr << "strdeque_comp: result of comparing deque " << id1 << " and deque " << id2 << " is ";
     }

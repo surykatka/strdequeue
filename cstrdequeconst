@@ -2,18 +2,14 @@
 // Created by bl on 22.10.16.
 //
 
-#ifndef INC_2_STRDEQUECONST_H
-#define INC_2_STRDEQUECONST_H
 #include <iostream>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 namespace jnp1 {
-    unsigned long emptystrdeque();
+    #include "strdequeconst.h"
 }
 #ifdef __cplusplus
 }
 #endif
-
-#endif //INC_2_STRDEQUECONST_H
